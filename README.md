@@ -7,25 +7,25 @@ If you have a collection of images, each has different aspect ratio, the Masonry
 
 ```jsx
 <Masonry tag='div' theme='primary' size='lg' orientation='block'>
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
 </Masonry>
 ```
 Rendered to:
 ```html
 <div class="c1 thPrimary szLg block">
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
-	<img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
+    <img src="..." alt="..." />
 </div>
 ```
 

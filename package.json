@@ -1,6 +1,6 @@
 {
   "name": "@nodestrap/masonry",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "A container in which the items are laid out one after the other in the inline (or block) direction.",
   "type": "module",
   "main": "dist/Masonry.jsx",
