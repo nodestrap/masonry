@@ -328,21 +328,15 @@ export function Masonry(props) {
         };
     }, [props.orientation, props.size]); // (re)run the setups & cleanups on every time the masonry's orientation & size changes
     // jsx:
-    return (<Content 
-    // other props:
-    {...props} 
-    // essentials:
-    elmRef={(elm) => {
+    return (React.createElement(Content, { ...props, 
+        // essentials:
+        elmRef: (elm) => {
             setRef(props.elmRef, elm);
             setRef(masonryRef, elm);
-        }} 
-    // semantics:
-    aria-orientation={props['aria-orientation'] ?? (orientationHorizontal ? 'horizontal' : 'vertical')} 
-    // classes:
-    mainClass={props.mainClass ?? sheet.main} variantClasses={[...(props.variantClasses ?? []),
+        }, "aria-orientation": props['aria-orientation'] ?? (orientationHorizontal ? 'horizontal' : 'vertical'), 
+        // classes:
+        mainClass: props.mainClass ?? sheet.main, variantClasses: [...(props.variantClasses ?? []),
             orientationVariant.class,
-        ]}>
-            {props.children}
-        </Content>);
+        ] }, props.children));
 }
 export { Masonry as default };
