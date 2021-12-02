@@ -1,5 +1,5 @@
 // react:
-import { default as React, useRef, useLayoutEffect, } from 'react'; // base technology of our nodestrap components
+import { default as React, useRef, } from 'react'; // base technology of our nodestrap components
 // cssfn:
 import { 
 // compositions:
@@ -15,6 +15,7 @@ import { createCssConfig,
 // utilities:
 usesGeneralProps, usesSuffixedProps, overwriteProps, } from '@cssfn/css-config'; // Stores & retrieves configuration using *css custom properties* (css variables)
 // nodestrap utilities:
+import { useIsomorphicLayoutEffect, } from '@nodestrap/hooks';
 import spacers from '@nodestrap/spacers'; // configurable spaces defs
 import { 
 // utilities:
@@ -173,7 +174,7 @@ export function Masonry(props) {
     const orientationHorizontal = (orientationVariant.class === 'inline');
     // dom effects:
     const masonryRef = useRef(null);
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const masonry = masonryRef.current;
         if (!masonry)
             return; // masonry was unloaded => nothing to do
