@@ -1,6 +1,6 @@
 {
   "name": "@nodestrap/masonry",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "A container in which the items are laid out one after the other in the inline (or block) direction.",
   "type": "module",
   "main": "dist/Masonry.js",
@@ -28,15 +28,15 @@
   },
   "homepage": "https://github.com/nodestrap/masonry#readme",
   "dependencies": {
-    "@cssfn/css-config": "^1.0.1",
-    "@cssfn/cssfn": "^1.0.6",
-    "@cssfn/react-cssfn": "^1.0.9",
-    "@nodestrap/basic": "^4.0.4",
-    "@nodestrap/content": "^4.0.5",
-    "@nodestrap/hooks": "^4.0.0",
-    "@nodestrap/spacers": "^4.0.1",
-    "@nodestrap/utilities": "^4.0.1",
-    "@types/react": "^17.0.37",
+    "@cssfn/css-config": "^1.0.4",
+    "@cssfn/cssfn": "^1.0.10",
+    "@cssfn/react-cssfn": "^1.0.11",
+    "@nodestrap/basic": "^4.0.7",
+    "@nodestrap/content": "^4.0.9",
+    "@nodestrap/hooks": "^4.0.1",
+    "@nodestrap/spacers": "^4.0.2",
+    "@nodestrap/utilities": "^4.0.3",
+    "@types/react": "^17.0.38",
     "react": "^17.0.2"
   }
 }

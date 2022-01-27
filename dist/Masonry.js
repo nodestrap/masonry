@@ -3,11 +3,13 @@ import { default as React, useRef, } from 'react'; // base technology of our nod
 // cssfn:
 import { 
 // compositions:
-composition, mainComposition, imports, 
-// layouts:
-layout, children, 
+mainComposition, 
+// styles:
+style, imports, 
 // rules:
-variants, rule, } from '@cssfn/cssfn'; // cssfn core
+rule, 
+//combinators:
+children, } from '@cssfn/cssfn'; // cssfn core
 import { 
 // hooks:
 createUseSheet, } from '@cssfn/react-cssfn'; // cssfn for react
@@ -35,115 +37,94 @@ export const usesMasonryLayout = (options) => {
     // options:
     options = normalizeOrientationRule(options, defaultOrientationRuleOptions);
     const [orientationBlockSelector, orientationInlineSelector] = usesOrientationRule(options);
-    return composition([
-        imports([
+    return style({
+        ...imports([
             // layouts:
             usesContentLayout(),
         ]),
-        layout({
+        ...style({
+            ...rule(orientationBlockSelector, {
+                // layouts:
+                display: 'grid',
+                gridAutoFlow: 'row',
+                gridAutoRows: cssProps.itemsRaiseSize,
+                gridTemplateColumns: `repeat(auto-fill, minmax(${cssProps.itemsMinColumnSize}, 1fr))`,
+                // child default sizes:
+                justifyItems: 'stretch',
+                // alignItems          : 'stretch', // distorting the item's height a bit for consistent multiplies of `itemsRaiseSize` // causing the ResizeObserver doesn't work
+                alignItems: 'start',
+                // spacings:
+                rowGap: [[0], '!important'],
+                // children:
+                ...children('*', {
+                    gridColumnEnd: [['unset'], '!important'],
+                    // spacings:
+                    ...rule(':not(.firstRow)', {
+                        /*
+                        * we use `marginBlockStart` as the replacement of the stripped out `rowGap`
+                        * we use `marginBlockStart` instead of `marginBlockEnd`
+                        * because finding grid's items at the first row is much easier than at the last row
+                        * (we don't need to count the number of grid's item)
+                        */
+                        marginBlockStart: cssProps.rowGap,
+                    }),
+                }),
+            }),
+            ...rule(orientationInlineSelector, {
+                // layouts:
+                display: 'inline-grid',
+                gridAutoFlow: 'column',
+                gridAutoColumns: cssProps.itemsRaiseSize,
+                gridTemplateRows: `repeat(auto-fill, minmax(${cssProps.itemsMinColumnSize}, 1fr))`,
+                // child default sizes:
+                alignItems: 'stretch',
+                // justifyItems        : 'stretch', // distorting the item's width a bit for consistent multiplies of `itemsRaiseSize` // causing the ResizeObserver doesn't work
+                justifyItems: 'start',
+                // spacings:
+                columnGap: [[0], '!important'],
+                // children:
+                ...children('*', {
+                    gridRowEnd: [['unset'], '!important'],
+                    // spacings:
+                    ...rule(':not(.firstRow)', {
+                        /*
+                        * we use `marginInlineStart` as the replacement of the stripped out `columnGap`
+                        * we use `marginInlineStart` instead of `marginInlineEnd`
+                        * because finding grid's items at the first row is much easier than at the last row
+                        * (we don't need to count the number of grid's item)
+                        */
+                        marginInlineStart: cssProps.rowGap,
+                    }),
+                }),
+            }),
             // customize:
             ...usesGeneralProps(cssProps), // apply general cssProps
         }),
-        variants([
-            /* the orientation variants are part of the layout, because without these variants the layout is broken */
-            rule(orientationBlockSelector, [
-                layout({
-                    // layouts:
-                    display: 'grid',
-                    gridAutoFlow: 'row',
-                    gridAutoRows: cssProps.itemsRaiseSize,
-                    gridTemplateColumns: `repeat(auto-fill, minmax(${cssProps.itemsMinColumnSize}, 1fr))`,
-                    // child default sizes:
-                    justifyItems: 'stretch',
-                    // alignItems          : 'stretch', // distorting the item's height a bit for consistent multiplies of `itemsRaiseSize` // causing the ResizeObserver doesn't work
-                    alignItems: 'start',
-                    // spacings:
-                    rowGap: [[0], '!important'],
-                    // children:
-                    ...children('*', [
-                        layout({
-                            gridColumnEnd: [['unset'], '!important'], // clear from residual effect from inlineStyle (if was)
-                        }),
-                        variants([
-                            rule(':not(.firstRow)', [
-                                layout({
-                                    /*
-                                    * we use `marginBlockStart` as the replacement of the stripped out `rowGap`
-                                    * we use `marginBlockStart` instead of `marginBlockEnd`
-                                    * because finding grid's items at the first row is much easier than at the last row
-                                    * (we don't need to count the number of grid's item)
-                                    */
-                                    marginBlockStart: cssProps.rowGap,
-                                }),
-                            ]),
-                        ]),
-                    ]),
-                }),
-            ]),
-            rule(orientationInlineSelector, [
-                layout({
-                    // layouts:
-                    display: 'inline-grid',
-                    gridAutoFlow: 'column',
-                    gridAutoColumns: cssProps.itemsRaiseSize,
-                    gridTemplateRows: `repeat(auto-fill, minmax(${cssProps.itemsMinColumnSize}, 1fr))`,
-                    // child default sizes:
-                    alignItems: 'stretch',
-                    // justifyItems        : 'stretch', // distorting the item's width a bit for consistent multiplies of `itemsRaiseSize` // causing the ResizeObserver doesn't work
-                    justifyItems: 'start',
-                    // spacings:
-                    columnGap: [[0], '!important'],
-                    // children:
-                    ...children('*', [
-                        layout({
-                            gridRowEnd: [['unset'], '!important'], // clear from residual effect from blockStyle (if was)
-                        }),
-                        variants([
-                            rule(':not(.firstRow)', [
-                                layout({
-                                    /*
-                                    * we use `marginInlineStart` as the replacement of the stripped out `columnGap`
-                                    * we use `marginInlineStart` instead of `marginInlineEnd`
-                                    * because finding grid's items at the first row is much easier than at the last row
-                                    * (we don't need to count the number of grid's item)
-                                    */
-                                    marginInlineStart: cssProps.rowGap,
-                                }),
-                            ]),
-                        ]),
-                    ]),
-                }),
-            ]),
-        ]),
-    ]);
+    });
 };
 export const usesMasonryVariants = () => {
     // dependencies:
     // layouts:
-    const [sizes] = usesSizeVariant((sizeName) => composition([
-        layout({
-            // overwrites propName = propName{SizeName}:
-            ...overwriteProps(cssDecls, usesSuffixedProps(cssProps, sizeName)),
-        }),
-    ]));
-    return composition([
-        imports([
+    const [sizes] = usesSizeVariant((sizeName) => style({
+        // overwrites propName = propName{SizeName}:
+        ...overwriteProps(cssDecls, usesSuffixedProps(cssProps, sizeName)),
+    }));
+    return style({
+        ...imports([
             // variants:
             usesContentVariants(),
             // layouts:
             sizes(),
         ]),
-    ]);
+    });
 };
 export const useMasonrySheet = createUseSheet(() => [
-    mainComposition([
-        imports([
-            // layouts:
-            usesMasonryLayout(),
-            // variants:
-            usesMasonryVariants(),
-        ]),
-    ]),
+    mainComposition(imports([
+        // layouts:
+        usesMasonryLayout(),
+        // variants:
+        usesMasonryVariants(),
+    ])),
 ], /*sheetId :*/ 'fiuyy1jxpx'); // an unique salt for SSR support, ensures the server-side & client-side have the same generated class names
 // configs:
 export const [cssProps, cssDecls, cssVals, cssConfig] = createCssConfig(() => {

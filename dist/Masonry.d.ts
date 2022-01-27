@@ -2,8 +2,8 @@ import { default as React } from 'react';
 import { OrientationName, OrientationRuleOptions, OrientationVariant } from '@nodestrap/basic';
 import { ContentProps } from '@nodestrap/content';
 export declare const defaultOrientationRuleOptions: OrientationRuleOptions;
-export declare const usesMasonryLayout: (options?: OrientationRuleOptions | undefined) => import("@cssfn/cssfn").StyleCollection;
-export declare const usesMasonryVariants: () => import("@cssfn/cssfn").StyleCollection;
+export declare const usesMasonryLayout: (options?: OrientationRuleOptions | undefined) => import("@cssfn/cssfn").Rule;
+export declare const usesMasonryVariants: () => import("@cssfn/cssfn").Rule;
 export declare const useMasonrySheet: import("@cssfn/types").Factory<import("jss").Classes<"main">>;
 export declare const cssProps: import("@cssfn/css-config").Refs<{
     columnGap: import("@cssfn/css-types").Cust.Ref;
